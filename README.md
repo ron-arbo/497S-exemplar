@@ -1,0 +1,1 @@
+This is a simple Golang application in which an HTTP created to handle some basic math operations. The program will parse the URL to identify an operations and its corresponding operands, and tehn perform that operations and return the result. Still need to actually give a response from the server, rather than printing the result. Still need to do some research on that.
