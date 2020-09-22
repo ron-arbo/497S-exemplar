@@ -8,21 +8,17 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", HelloServer)
-	// http.HandleFunc("/add", addNums)
-	// http.HandleFunc("/subtract", subtractNums)
-	// http.HandleFunc("/multiply", multiplyNums)
-	// http.HandleFunc("/divide", divideNums)
+	http.HandleFunc("/", MathServer)
 	http.ListenAndServe(":8080", nil)
 }
 
-//MathServer greets the user
+//MathServer is the function called once a request to the server is made. It will parse the URL and call the appropriate math function
 func MathServer(w http.ResponseWriter, r *http.Request) {
-	// fmt.Fprintf(w, "Hello, %s!\n", r.URL.Path[1:])
+	//Split the URL around "/" to get each argument
 	args := strings.Split(r.URL.Path, "/")
 	operation := args[1]
-	fmt.Println(operation)
-	fmt.Printf("%T\n", operation)
+
+	//Check operation, call appropriate math function
 	switch operation {
 	case "add":
 		addNums(w, r)
@@ -33,57 +29,80 @@ func MathServer(w http.ResponseWriter, r *http.Request) {
 	case "divide":
 		divideNums(w, r)
 	}
-
 }
 
-//addNums
+//addNums will parse the URL and add each argument following the operation declaration by one another
 func addNums(w http.ResponseWriter, r *http.Request) {
+	//Split the URL around "/" to find arguments, slice to find operands only
 	args := strings.Split(r.URL.Path, "/")
 	operands := args[2:]
-	fmt.Println("Operands: ", operands)
-	sum := 0
-	for _, s := range operands {
-		num, _ := strconv.Atoi(s)
+
+	//Initial value is first operand, convert to int
+	sum, _ := strconv.Atoi(operands[0])
+
+	//Loop through operands, applying operation to each
+	for i := 1; i < len(operands); i++ {
+		num, _ := strconv.Atoi(operands[i])
 		sum += num
 	}
-	fmt.Println("Sum:", sum)
+
+	//Print to browser
+	fmt.Fprintf(w, "Sum: %d", sum)
 }
 
-//multiplyNums
+//addNums will parse the URL and multiply each argument following the operation declaration by one another
 func multiplyNums(w http.ResponseWriter, r *http.Request) {
+	//Split the URL around "/" to find arguments, slice to find operands only
 	args := strings.Split(r.URL.Path, "/")
 	operands := args[2:]
-	fmt.Println("Operands: ", operands)
-	product := 0
-	for _, s := range operands {
-		num, _ := strconv.Atoi(s)
-		product += num
+
+	//Initial value is first operand, convert to int
+	product, _ := strconv.Atoi(operands[0])
+
+	//Loop through operands, applying operation to each
+	for i := 1; i < len(operands); i++ {
+		num, _ := strconv.Atoi(operands[i])
+		product *= num
 	}
-	fmt.Println("Product:", product)
+
+	//Print to browser
+	fmt.Fprintf(w, "Product: %d", product)
 }
 
-//subtractNums
+//subtractNums will parse the URL and subtract each argument following the operation declaration by one another
 func subtractNums(w http.ResponseWriter, r *http.Request) {
+	//Split the URL around "/" to find arguments, slice to find operands only
 	args := strings.Split(r.URL.Path, "/")
 	operands := args[2:]
-	fmt.Println("Operands: ", operands)
-	difference := 0
-	for _, s := range operands {
-		num, _ := strconv.Atoi(s)
-		difference += num
+
+	//Initial value is first operand, convert to int
+	difference, _ := strconv.Atoi(operands[0])
+
+	//Loop through operands, applying operation to each
+	for i := 1; i < len(operands); i++ {
+		num, _ := strconv.Atoi(operands[i])
+		difference -= num
 	}
-	fmt.Println("Difference:", difference)
+
+	//Print to browser
+	fmt.Fprintf(w, "Difference: %d", difference)
 }
 
-//divideNums
+//divideNums will parse the URL and divide each argument following the operation declaration by one another
 func divideNums(w http.ResponseWriter, r *http.Request) {
+	//Split the URL around "/" to find arguments, slice to find operands only
 	args := strings.Split(r.URL.Path, "/")
 	operands := args[2:]
-	fmt.Println("Operands: ", operands)
-	quotient := 0
-	for _, s := range operands {
-		num, _ := strconv.Atoi(s)
-		quotient += num
+
+	//Initial value is first operand, convert to int
+	quotient, _ := strconv.Atoi(operands[0])
+
+	//Loop through operands, applying operation to each
+	for i := 1; i < len(operands); i++ {
+		num, _ := strconv.Atoi(operands[i])
+		quotient /= num
 	}
-	fmt.Println("Quotient:", quotient)
+
+	//Print to browser
+	fmt.Fprintf(w, "Quotient: %d", quotient)
 }
